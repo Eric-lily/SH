@@ -1,0 +1,33 @@
+.nav-bottom{
+    position: fixed;
+    bottom: 0px;
+    background-color: skyblue;
+    width: 100%;
+    height: 60px;
+}
+.nav-bottom div{
+    float: left;
+    height: 60px;
+}
+.nav-bottom a{
+    display: inline-block;
+    width: 90px;
+    position: relative;
+}
+.nav-bottom label{
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    color: black;
+    position: absolute;
+    bottom: -40px;
+    
+}
+.nav-bottom img{
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    bottom: -17px;
+    left: 30px;
+
+}
