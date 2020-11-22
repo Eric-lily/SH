@@ -7,15 +7,25 @@
       </video>
       <!-- 蒙版 -->
       <div class="video_mask">
-         <!-- 登录页面 -->
+        <!-- 登录页面 -->
         <div class="login_interface">
           <h2>Login</h2>
           <div class="form_content">
             <div class="inputBox">
-              <input type="text" placeholder="用户名" id="username" v-model="username"/>
+              <input
+                type="text"
+                placeholder="用户名"
+                id="username"
+                v-model="username"
+              />
             </div>
             <div class="inputBox">
-              <input type="password" placeholder="密码" id="password" v-model="password"/>
+              <input
+                type="password"
+                placeholder="密码"
+                id="password"
+                v-model="password"
+              />
             </div>
             <button @click="login">登录</button>
           </div>
@@ -28,39 +38,85 @@
 <script>
 import axios from "axios";
 import qs from "qs";
+let Base64 = require("js-base64").Base64;
 export default {
   name: "Login",
   data() {
     return {
-      password:null,
-      username:null,
-      relsit:[]
+      password: null,
+      username: null,
+      relsit: [],
     };
   },
   methods: {
-    login:function(){
+    login: function () {
       var data = {
-        username:this.username,
-        password:this.password,
-      }
+        username: Base64.encode(this.username),
+        password: Base64.encode(this.password),
+      };
       axios({
-        method:'post',
-        url:'http://localhost:8000/login/',
-        data:data
-      }).then(res=>{
-        console.log(res);
-        if(res.data.code=='1000'){
-          this.$router.push('/homepage')
-          //路由跳转
-        }
-        else{
-          alert('用户名或密码错误')
-        }
-      }).catch(function(error){
-        console.log(error);
+        method: "post",
+        url: "http://localhost:8000/login/",
+        data: data,
       })
+        .then((res) => {
+          console.log(res);
+          if (res.data.code == "1000") {
+            this.setCookie(username, password, 7);
+            this.$router.push("/homepage");
+            //路由跳转
+          } else {
+            alert("用户名或密码错误");
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    setCookie(username, password, day) {
+      var exdate = new Date(); //获取时间
+      exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * day);
+      //字符串拼接cookie
+      window.document.cookie =
+        "username" +
+        "=" +
+        username.value +
+        ";path=/;expires=" +
+        exdate.toGMTString();
+      window.document.cookie =
+        "password" +
+        "=" +
+        password.value +
+        ";path=/;expires=" +
+        exdate.toGMTString();
+    },
+    getCookie: function () {
+      if (document.cookie.length > 0) {
+        var arr = document.cookie.split("; "); //这里显示的格式需要切割一下自己可输出看下
+        for (var i = 0; i < arr.length; i++) {
+          var arr2 = arr[i].split("="); //再次切割
+          //判断查找相对应的值
+          if (arr2[0] == "username") {
+            this.username = arr2[1]; //保存到保存数据的地方
+          } else if (arr2[0] == "password") {
+            this.password = arr2[1];
+          }
+        }
+      }
+      console.log(this.username);
+    },
+  },
+  mounted() {
+    this.getCookie();
+    var arr = document.cookie.split("; "); //这里显示的格式需要切割一下自己可输出看下
+    for (var i = 0; i < arr.length; i++) {
+      var arr2 = arr[i].split("="); //再次切割
+      //判断查找相对应的值
+      if (arr2[0] == "username") {
+        this.$router.push("/homepage"); //保存到保存数据的地方
+      }
     }
-  }
+  },
 };
 </script>
 

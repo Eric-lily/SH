@@ -6,6 +6,8 @@ import router from './router'
 import axios from 'axios'
 import  qs from 'qs'
 import Element from 'element-ui'
+import EncryUtil from '@/utils/encrypt.js'
+Vue.prototype.EncryUtil = EncryUtil
 
 
 Vue.use(Element)

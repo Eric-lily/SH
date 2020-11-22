@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from common.models import User
 import json
+import base64
 # Create your views here.
 
 def create(request):
@@ -25,8 +26,10 @@ def login(request):
      if request.method == 'POST':
           ret = {'code':1000,'msg':None}
           request.params = json.loads(request.body)
-          username = request.params['username']
-          password = request.params['password']
+          username1 = request.params['username']
+          password1 = request.params['password']
+          username = base64.b64decode(username1.encode("utf-8")).decode('utf-8')
+          password = base64.b64decode(password1.encode("utf-8")).decode('utf-8')
           obj = User.objects.filter(username = username,password=password).first()
           if not obj:
                ret['code'] = 1001
