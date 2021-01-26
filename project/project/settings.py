@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'common.apps.CommonConfig',
     'corsheaders',
-    'login'
+    'login',
+    'REST',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -152,5 +154,5 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
+APPEND_SLASH=False
 STATIC_URL = '/static/'

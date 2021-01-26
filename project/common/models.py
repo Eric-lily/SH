@@ -18,5 +18,27 @@ class User(models.Model):
     objects = models.Manager()
     DoesNotExist = models.Manager()
 
+class Book(models.Model):
+    b_name = models.CharField(max_length=32)
+    b_price = models.FloatField(default=1)
+    objects = models.Manager()
+    DoesNotExist = models.Manager()
+
+class Person(models.Model):
+    p_name = models.CharField(max_length=32)
+    p_age = models.IntegerField(default=1)
+    p_sex = models.BooleanField(default=False)
+    objects = models.Manager()
+    DoesNotExist = models.Manager()
+
+class Student(models.Model):
+    s_name = models.CharField(max_length=32)
+    s_age = models.IntegerField(default=1)
+    objects = models.Manager()
+    DoesNotExist = models.Manager()
+
 from django.contrib import admin
 admin.site.register(User)
+admin.site.register(Book)
+admin.site.register(Person)
+admin.site.register(Student)
